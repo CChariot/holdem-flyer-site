@@ -1,0 +1,18 @@
+<!doctype html><meta charset="utf-8"><body>sending…
+<script>
+const names = ['mkt_01.png','mkt_02.png','mkt_03.png','mkt_04.png','mkt_05.png',
+               'ipad_mkt_01.png','ipad_mkt_02.png','ipad_mkt_03.png','ipad_mkt_04.png','ipad_mkt_05.png'];
+(async () => {
+  try {
+    const files = [];
+    for (const n of names) {
+      const r = await fetch(n);
+      if (!r.ok) throw new Error('missing ' + n);
+      files.push({name: n, buf: await r.arrayBuffer()});
+      document.body.textContent = 'loaded ' + files.length + '/' + names.length;
+    }
+    window.opener.postMessage({type: 'hf-files', files}, 'https://appstoreconnect.apple.com');
+    document.body.textContent = 'sent ' + files.length;
+  } catch (e) { document.body.textContent = 'ERR ' + e.message; }
+})();
+</script>

@@ -6,7 +6,7 @@ const names = ['mkt_01.png','mkt_02.png','mkt_03.png','mkt_04.png','mkt_05.png',
   try {
     const files = [];
     for (const n of names) {
-      const r = await fetch(n);
+      const r = await fetch(n + '?t=' + Date.now(), {cache: 'no-store'});
       if (!r.ok) throw new Error('missing ' + n);
       files.push({name: n, buf: await r.arrayBuffer()});
       document.body.textContent = 'loaded ' + files.length + '/' + names.length;
